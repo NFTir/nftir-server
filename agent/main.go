@@ -10,7 +10,7 @@ package main
 // Import packages
 import (
 	"NFTir/agent/initializers"
-	"log"
+	"NFTir/agent/services"
 
 	"github.com/jamespearly/loggly"
 )
@@ -29,6 +29,5 @@ func init()  {
 
 /* @function main() - root function */
 func main()  {
-	
-	log.Println("NFTir")
+	services.PeriodicallyFetchData(logglyClient)
 }
