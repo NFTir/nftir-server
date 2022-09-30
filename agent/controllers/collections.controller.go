@@ -17,12 +17,12 @@ import (
 )
 
 /*
-@function RtrieveCollectionRanking - Controller that makes an http request to NFTGoAPI server
+	@function RtrieveCollectionRanking - Controller that makes an http request to NFTGoAPI server
 
-@return
-	- NFTGoData *models.NFTGoData := models.NFTGoData
-	- responseLen int: the length of the response
-	- err error: error
+	@return
+		- NFTGoData *models.NFTGoData := models.NFTGoData
+		- responseLen int: the length of the response
+		- err error: error
 */
 func RetrieveCollectionRanking() (NFTGoData *models.NFTGoData, responseLen int, err error) {
 	// retrieve env vars
