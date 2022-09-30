@@ -21,10 +21,10 @@ import (
 )
 
 /*
-	@function PeriodicallyFetchData - fetch data in 6 hours
+@function PeriodicallyFetchData - fetch data in 6 hours
 
-	@params
-		- logglyClient *loggly.ClientType := jearly/loggly
+@params
+	- logglyClient *loggly.ClientType := jearly/loggly
 */
 func PeriodicallyFetchData(logglyClient *loggly.ClientType) {
 	log.Println("Fetching...")
@@ -43,13 +43,13 @@ func PeriodicallyFetchData(logglyClient *loggly.ClientType) {
 }
 
 /* 
-	@function clientProcessor - processes parameters and sends message to Loggly 
-	
-	@params
-		- logglyClient *loggly.ClientType := jearly/loggly
-		- NFTGoData *models.NFTGoData := models.NFTGoData
-		- responseLen int: the length of the response
-		- err error: error
+@function clientProcessor - processes parameters and sends message to Loggly 
+
+@params
+	- logglyClient *loggly.ClientType := jearly/loggly
+	- NFTGoData *models.NFTGoData := models.NFTGoData
+	- responseLen int: the length of the response
+	- err error: error
 */
 func clientProcessor(logglyClient *loggly.ClientType, NFTGoData *models.NFTGoData, responseLen int, err error)  {
 	// if err := controllers.RetrieveCollectionRanking() != nil, send a failed message to loggly then fatalize the process with err message and a call to os.Exit(1)

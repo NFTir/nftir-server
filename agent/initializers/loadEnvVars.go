@@ -15,9 +15,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-/*
-	@Function LoadEnvVars() - loads environment varables
-*/
+/*@Function LoadEnvVars() - loads environment varables*/
 func LoadEnvVars()  {
 	err := godotenv.Load()
   	if err != nil {
