@@ -1,0 +1,11 @@
+# specify version
+version: '3.8'
+
+# two services
+services:
+  # service 1 - agent
+  agent:
+    # build the Dockerfile in the same folder
+    build: .
+
+  # service 2 - dynamoDB
