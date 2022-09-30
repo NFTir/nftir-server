@@ -40,7 +40,7 @@ func RetrieveCollectionRanking() (NFTGoData *models.NFTGoData, responseLen int, 
 	req.Header.Add("accept", "application/json")
 	req.Header.Add("X-API-KEY", NFTGO_API_KEY)
 
-	// Fetching
+	// Make the request to NFTFo server to fetch data
 	fmt.Println("Fetching...")
 	res, err := http.DefaultClient.Do(req)
 	if (err != nil) {
@@ -56,7 +56,6 @@ func RetrieveCollectionRanking() (NFTGoData *models.NFTGoData, responseLen int, 
 	// parse json from []byte to JSON
 	json.Unmarshal(body, &NFTGoData)
 	responseLen = len(body)
-
 
 	// return NFTGoData and nil for err
 	return NFTGoData, responseLen, nil
