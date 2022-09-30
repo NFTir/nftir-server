@@ -10,16 +10,48 @@ package services
 
 // import packages
 import (
+	"NFTir/agent/controllers"
 	"NFTir/agent/models"
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/jamespearly/loggly"
 )
 
-/* @function ClientProcessor - processes parameters and sends message to Loggly */
-func ClientProcessor(logglyClient *loggly.ClientType, NFTGoData *models.NFTGoData, responseLen int, err error)  {
+/*
+	@function PeriodicallyFetchData - fetch data in 6 hours
+
+	@params
+		- logglyClient *loggly.ClientType := jearly/loggly
+*/
+func PeriodicallyFetchData(logglyClient *loggly.ClientType) {
+	log.Println("Fetching...")
+	for {
+		go func () {
+			// Fetching data
+			NFTGoData, responseLen, err := controllers.RetrieveCollectionRanking();
+						
+			// Processing data
+			clientProcessor(logglyClient, NFTGoData, responseLen, err);
+		}()
+		timer1 := time.NewTimer(6*time.Hour)
+		<-timer1.C
+		log.Println("Refetching in 6 hours...")
+	}
+}
+
+/* 
+	@function clientProcessor - processes parameters and sends message to Loggly 
+	
+	@params
+		- logglyClient *loggly.ClientType := jearly/loggly
+		- NFTGoData *models.NFTGoData := models.NFTGoData
+		- responseLen int: the length of the response
+		- err error: error
+*/
+func clientProcessor(logglyClient *loggly.ClientType, NFTGoData *models.NFTGoData, responseLen int, err error)  {
 	// if err := controllers.RetrieveCollectionRanking() != nil, send a failed message to loggly then fatalize the process with err message and a call to os.Exit(1)
 	if err != nil {
 		// init LogglyMessage struct with failed Request_Status and Data_Length equals to 0
@@ -55,5 +87,4 @@ func ClientProcessor(logglyClient *loggly.ClientType, NFTGoData *models.NFTGoDat
 	
 	// Print NFTGoData := controllers.RetrieveCollectionRanking() to the console
 	fmt.Printf("%+v \n", NFTGoData)
-	fmt.Println("disconnecting...")
 }

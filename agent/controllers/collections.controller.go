@@ -11,7 +11,6 @@ package controllers
 import (
 	"NFTir/agent/models"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -21,9 +20,9 @@ import (
 	@function RtrieveCollectionRanking - Controller that makes an http request to NFTGoAPI server
 
 	@return
-		- NFTGoData *models.NFTGoData - the NFTGoData struct
-		- responseLen int - the length of the response
-		- err error - error
+		- NFTGoData *models.NFTGoData := models.NFTGoData
+		- responseLen int: the length of the response
+		- err error: error
 */
 func RetrieveCollectionRanking() (NFTGoData *models.NFTGoData, responseLen int, err error) {
 	// retrieve env vars
@@ -41,7 +40,6 @@ func RetrieveCollectionRanking() (NFTGoData *models.NFTGoData, responseLen int, 
 	req.Header.Add("X-API-KEY", NFTGO_API_KEY)
 
 	// Make the request to NFTFo server to fetch data
-	fmt.Println("Fetching...")
 	res, err := http.DefaultClient.Do(req)
 	if (err != nil) {
 		return NFTGoData, 0, err
