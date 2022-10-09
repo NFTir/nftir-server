@@ -7,5 +7,7 @@ services:
   agent:
     # build the Dockerfile in the same folder
     build: .
+    env_file:
+      - .env
 
   # service 2 - dynamoDB
