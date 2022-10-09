@@ -21,8 +21,9 @@ FROM alpine:latest
 ## Choose work directory
 WORKDIR /NFTir
 
-## Copy only the executable binary file from the last stage to this stage
+## Copy the executable binary file and .env file from the last stage to the new stage
 COPY --from=builder /NFTir/agent .
+COPY --from=builder /NFTir/.env .
 
 
 # Execute the build
