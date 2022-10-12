@@ -16,7 +16,7 @@ import (
 )
 
 /*
-	@Function LoadEnvVars() - loads environment varables
+@func: LoadEnvVars() - loads environment varables
 */
 func LoadEnvVars()  {
 	err := godotenv.Load()

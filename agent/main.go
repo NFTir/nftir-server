@@ -10,7 +10,6 @@ package main
 // Import packages
 import (
 	"NFTir/agent/initializers"
-	"NFTir/agent/services"
 
 	"github.com/jamespearly/loggly"
 )
@@ -23,11 +22,13 @@ var (
 /* @function init() - run before main() */
 func init()  {
 	initializers.LoadEnvVars();
+	
 	logglyClient = loggly.New("NFTir")
 }
 
 
 /* @function main() - root function */
 func main()  {
-	services.PeriodicallyFetchData(logglyClient)
+
+	// services.PeriodicallyFetchData(logglyClient)
 }
