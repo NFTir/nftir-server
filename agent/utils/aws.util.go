@@ -6,7 +6,7 @@
 */
 
 /* @package services */
-package services
+package utils
 
 // import packages
 import (
