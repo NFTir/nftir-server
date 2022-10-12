@@ -37,6 +37,6 @@ type Collection struct {
 
 /* @struct NFTGoResponse - final HTTP response from NFTGo API request*/
 type NFTGoData struct {
-	Total			uint				`json:"total"`
-	Collections		[]Collection 		`json:"collections"`
+	Total uint `json:"total"`
+	Collections []Collection `json:"collections"`
 }
