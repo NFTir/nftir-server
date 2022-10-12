@@ -7,4 +7,8 @@ require (
 	github.com/joho/godotenv v1.4.0
 )
 
-require github.com/TwiN/go-color v1.1.0 // indirect
+require (
+	github.com/TwiN/go-color v1.1.0 // indirect
+	github.com/aws/aws-sdk-go v1.44.114 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+)
