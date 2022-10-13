@@ -12,7 +12,7 @@ package models
 type Collection struct {
 	Last_updated 							uint 		`json:"last_updated"`
 	Blockchain 								string 		`json:"blockchain"`
-	Name 									string 		`json:"name"`
+	Name 									string 		
 	Slug 									string 		`json:"slug"`
 	Opensea_slug 							string 		`json:"opensea_slug"`
 	Description 							string  	`json:"description"`
@@ -29,7 +29,7 @@ type Collection struct {
 	Has_rarity 								bool 		`json:"has_rarity"`
 	Market_cap_usd 							float32 	`json:"market_cap_usd"`
 	Market_cap_change_percentage 			float64 	`json:"market_cap_change_percentage"`
-	Volume_usd 								float32 	`json:"volume_usd"`
+	Volume_usd 								float32 	
 	Floor_price_usd 						float32 	`json:"floor_price_usd"`
 	Whale_num 								uint 		`json:"whale_num"`
 	Holder_num 								uint 		`json:"holder_num"`
