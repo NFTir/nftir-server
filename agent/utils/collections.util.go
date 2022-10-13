@@ -12,6 +12,7 @@ import (
 	"NFTir/agent/models"
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 )
@@ -25,6 +26,7 @@ import (
 	- err error: error
 */
 func RetrieveCollectionRanking() (NFTGoData *models.NFTGoData, responseLen int, err error) {
+	log.Println("Fetching data from NFTGo server...")
 	// retrieve env vars
 	NFTGO_API_URL := os.Getenv("NFTGO_API_URL")
 	NFTGO_API_KEY := os.Getenv("NFTGO_API_KEY")
