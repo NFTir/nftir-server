@@ -24,7 +24,7 @@ var (
 	db *dynamodb.DynamoDB
 )
 
-/* @function init() - run before main() */
+/* @func: init() - run before main() */
 func init()  {
 	initializers.LoadEnvVars();
 	logglyClient = loggly.New("NFTir")

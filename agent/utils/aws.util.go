@@ -20,7 +20,7 @@ import (
 )
 
 /*
-@func: EstablishAwsDynamodbSession - Establishing a connection to AWS DynamoDB
+@func: EstablishAwsDynamodbSession() - Establishing a connection to AWS DynamoDB
 
 @return
 	- db *dynamodb.DynamoDB
@@ -33,7 +33,7 @@ func EstablishAwsDynamodbSession() (*dynamodb.DynamoDB) {
 }
 
 /*
-@func: CreateNFTirTable - create an NFTir table on AWS DynamoDB
+@func: CreateNFTirTable() - create an NFTir table on AWS DynamoDB
 
 @params:
 	- tableName string: the name of the table
@@ -97,7 +97,7 @@ func CreateNFTirTable(tableName string, db *dynamodb.DynamoDB) {
 }
 
 /*
-@func: PutCollectionInput - Putting collection items to dynamoDB table
+@func: PutCollectionInput() - Putting collection items to dynamoDB table
 
 @params:
 	- tableName string: the name of the table
@@ -125,7 +125,7 @@ func PutCollectionInput(tableName string, collection models.Collection, db *dyna
 }
 
 /*
-@func: DeleteTable - Deleting table if table already exists
+@func: DeleteTable() - Deleting table if table already exists
 
 @params: 
 	- tableName string: the name of the table

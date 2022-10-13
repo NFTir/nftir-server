@@ -18,7 +18,7 @@ import (
 )
 
 /*
-@func RtrieveCollectionRanking - Controller that makes an http request to NFTGoAPI server
+@func RtrieveCollectionRanking() - Controller that makes an http request to NFTGoAPI server
 
 @return
 	- NFTGoData *models.NFTGoData := models.NFTGoData
