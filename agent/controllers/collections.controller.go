@@ -47,11 +47,6 @@ func setUpTableAsync(tableName string, db *dynamodb.DynamoDB) {
 
 	// Delete table tableName if the table already exists
 	utils.DeleteTable(tableName, db)
-	// Give AWS 10 seconds to delete and clean up table. 
-	// Should be done in async/await manner
-	time1 := time.NewTimer(10*time.Second)
-	<- time1.C
-
 	
 	// Creating new table tableName
 	log.Println("Creating new table "+tableName+"...")

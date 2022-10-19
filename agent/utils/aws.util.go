@@ -12,6 +12,7 @@ package utils
 import (
 	"NFTir/agent/models"
 	"log"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -93,7 +94,7 @@ func CreateNFTirTable(tableName string, db *dynamodb.DynamoDB) {
 		log.Fatal("Creating table error: ", err.Error())
 	}
 
-	log.Printf("Table nnguyen6_NFTir successfully created! Wating for AWS to initialize table...")
+	log.Printf("Table "+tableName+" successfully created! Wating for AWS to initialize table...")
 }
 
 /*
@@ -156,6 +157,10 @@ func DeleteTable(tableName string, db *dynamodb.DynamoDB) {
 			if _, err := db.DeleteTable(deleteTableInput); err != nil {
 				log.Fatal("Deleting table error: ", err.Error())
 			}
+			// Give AWS 10 seconds to delete and clean up table. 
+			// Should be done in async/await manner
+			time1 := time.NewTimer(10*time.Second)
+			<- time1.C
 		}
 	}
 }
