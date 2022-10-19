@@ -5,7 +5,7 @@
 
 ## Overview
 
-NFTir agent is a simple server which polls the NFTGo server every 6 hours to get a dataset of the top 25 NFTs ranking based on their trading volumes.
+NFTir agent is a golang server which polls the NFTGo server every 6 hours to get a dataset of the top 25 NFTs ranking based on their trading volumes.
 The agent then breaks down the dataset into single items and push them into an Amazon DynamoDB table which will be used by the NFTir RESTful server to process the data.
 
 ## Getting Started
