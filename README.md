@@ -1,5 +1,12 @@
-Currently Work In Progress..
+<p align="center">
+<br />
+<h1 align="center">NFTir - Agent</h1>
+<h5 align="center">SUNY OSwego </h3>
+<h6 align="center">CSC 482 <h4>
+</p>
 
-# NFTir -- CSC 482
+###### Currently work in progress
 
-NFTir is a Golang web server hosting multiple RESTful endpoints that helps processing metadata and information of specific NFTs using NFTGo API
+## Overview
+
+NFTir is a comprised of two projects which are [NFTir/agent](https://github.com/logann131/NFTir/tree/master/agent) and [NFTir/server](). NFTir utilizes [AWS services](https://aws.amazon.com/) and the [gin-gonic](https://github.com/gin-gonic/gin) framework to create a web service that polls the [NFTGo server](https://nftgo.io/) and hosts multiple RESTful endpoints that help processing metadata and information of specific NFTs.
