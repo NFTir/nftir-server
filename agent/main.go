@@ -34,5 +34,5 @@ func init()  {
 
 /* @function main() - root function */
 func main()  {
-	controllers.PeriodicallyFetchData(logglyClient, os.Getenv("TABLE_NAME"), db);
+	controllers.PeriodicallyFetchData(logglyClient, os.Getenv("TABLE_NAME"), db)
 }

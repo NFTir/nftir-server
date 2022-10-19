@@ -10,8 +10,6 @@ package utils
 
 // import packages
 import (
-	"log"
-
 	"github.com/joho/godotenv"
 )
 
@@ -20,7 +18,5 @@ import (
 */
 func LoadEnvVars()  {
 	err := godotenv.Load()
-  	if err != nil {
-    	log.Fatal("Error loading .env file")
-  	}
+	HandleException(err);
 }

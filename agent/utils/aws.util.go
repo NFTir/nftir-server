@@ -89,10 +89,8 @@ func CreateNFTirTable(tableName string, db *dynamodb.DynamoDB) {
 	}
 
 	// Create the table
-	if _, err := db.CreateTable(tableInput); err != nil {
-		// if err is not nil, fatalize the process
-		log.Fatal("Creating table error: ", err.Error())
-	}
+	_, err := db.CreateTable(tableInput); 
+	HandleException(err);
 
 	log.Printf("Table "+tableName+" successfully created! Wating for AWS to initialize table...")
 }
@@ -109,9 +107,7 @@ func PutCollectionInput(tableName string, collection models.Collection, db *dyna
 	log.Println(collection)
 	// Get collectionAV from dynamodbattribute.marshalMap()
 	collectionAttributeValue, err := dynamodbattribute.MarshalMap(collection)
-	if err != nil {
-		log.Fatalf("Got error marshalling new movie item: %s", err)
-	}
+	HandleException(err);
 
 	// Creating PutItemInput parameter
 	collectionTableInput := &dynamodb.PutItemInput{
@@ -120,9 +116,8 @@ func PutCollectionInput(tableName string, collection models.Collection, db *dyna
 	}
 
 	// Putting the item to the dynamoDB table
-	if _, err := db.PutItem(collectionTableInput); err != nil {
-		log.Fatalf("Got error calling PutItem: %s", err)
-	}
+	_, e := db.PutItem(collectionTableInput); 
+	HandleException(e);
 }
 
 /*
@@ -138,9 +133,7 @@ func DeleteTable(tableName string, db *dynamodb.DynamoDB) {
 	
 	// get the list of tableNames using ListTables API from dynamodb go sdk
 	listTableOutput, err := db.ListTables(listTableInput)
-	if err != nil {
-		log.Fatal("Listing table error: ", err.Error())
-	}
+	HandleException(err);
 
 	// Checking if tableName already exists
 	// Loop through TableNames array

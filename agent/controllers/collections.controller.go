@@ -93,14 +93,11 @@ func clientProcessor(tableName string, logglyClient *loggly.ClientType, NFTGoDat
 		LogglyMessage := models.LogglyMessage{Request_Status: "failure", Data_Length: 0}
 		// stringify struct to prepare for jearly/loggly.Send()
 		stringifiedLogglyMessage, marshalErr := json.Marshal(LogglyMessage)
-		if marshalErr != nil {
-			log.Fatal(marshalErr)
-		}
+		utils.HandleException(marshalErr)
 
 		// if logglyError := jearly/loggly.Send() != nil, fatalize the process with the loglly a call to os.Exit(1)
-		if logglyErr := logglyClient.Send("error", string(stringifiedLogglyMessage)); logglyErr != nil {
-			log.Fatal(logglyErr)
-		}
+		logglyErr := logglyClient.Send("error", string(stringifiedLogglyMessage)); 
+		utils.HandleException(logglyErr)
 
 		// fatilze the error
 		log.Fatal(err)
@@ -111,14 +108,11 @@ func clientProcessor(tableName string, logglyClient *loggly.ClientType, NFTGoDat
 	
 	// stringify struct to prepare for jearly/loggly.Send()
 	stringifiedLogglyMessage, marshalErr := json.Marshal(LogglyMessage)
-	if marshalErr != nil {
-		log.Fatal(marshalErr)
-	}
+	utils.HandleException(marshalErr);
 	
 	// if logglyError := jearly/loggly.Send() != nil, fatalize the process with the loglly a call to os.Exit(1)
-	if logglyErr := logglyClient.Send("info", string(stringifiedLogglyMessage)); logglyErr != nil {
-		log.Fatal((logglyErr))
-	}
+	logglyErr := logglyClient.Send("info", string(stringifiedLogglyMessage)); 
+	utils.HandleException(logglyErr);
 	
 	// Pushing NFTGo collections to table
 	log.Println("Pushing NFTGo collections to table "+tableName)
