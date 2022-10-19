@@ -13,12 +13,14 @@ import (
 	"NFTir/server/utils"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/jamespearly/loggly"
 )
 
 // initialize global variables
 var (
-	logglyClient *loggly.ClientType // loggyClient := jearly/loggly
+	server      	*gin.Engine
+	logglyClient 	*loggly.ClientType // loggyClient := jearly/loggly
 )
 
 /* @func: init() - run before main() */
@@ -27,10 +29,14 @@ func init()  {
 		utils.LoadEnvVars()
 	}
 	logglyClient = loggly.New("NFTir")
+	server = gin.Default()
+	// Gin trust all proxies by default. 192.168.1.2 typically assigned to home routers.
+	server.SetTrustedProxies([]string{"192.168.1.2"})
 }
 
-/* @function main() - root function */
+/* @func main() - root function */
 func main() {
-	router := routers.SetupRouter();
-	router.Run(os.Getenv("PORT"))
+	basePath := server.Group("/v1/nnguyen6")
+	routers.SetupRouter(basePath);
+	server.Run(os.Getenv("PORT"))
 }
