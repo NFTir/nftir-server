@@ -1,6 +1,6 @@
 <p align="center">
 <br />
-<h1 align="center">NFTir - Agent</h1>
+<h1 align="center">NFTir</h1>
 <h5 align="center">SUNY OSwego </h3>
 <h6 align="center">CSC 482 <h4>
 </p>
