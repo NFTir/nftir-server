@@ -32,5 +32,5 @@ func init()  {
 /* @function main() - root function */
 func main() {
 	router := routers.SetupRouter();
-	router.Run("localhost"+os.Getenv("PORT"))
+	router.Run(os.Getenv("PORT"))
 }
