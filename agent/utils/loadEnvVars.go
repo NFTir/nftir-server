@@ -6,7 +6,7 @@
 */
 
 /* @package initializers */
-package initializers
+package utils
 
 // import packages
 import (

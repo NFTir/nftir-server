@@ -10,7 +10,6 @@ package main
 // Import packages
 import (
 	"NFTir/agent/controllers"
-	"NFTir/agent/initializers"
 	"NFTir/agent/utils"
 	"os"
 
@@ -27,7 +26,7 @@ var (
 /* @func: init() - run before main() */
 func init()  {
 	if (os.Getenv("APP_ENV") != "production") {
-		initializers.LoadEnvVars()
+		utils.LoadEnvVars()
 	}
 	logglyClient = loggly.New("NFTir")
 	db = utils.EstablishAwsDynamodbSession()
