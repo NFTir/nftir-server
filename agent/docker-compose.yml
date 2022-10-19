@@ -3,11 +3,20 @@ version: '3.8'
 
 # two services
 services:
-  # service 1 - agent
   agent:
-    # build the Dockerfile in the same folder
-    build: .
+    #image name
+    image: nnguyen6/agent:1.0
+    # build the Dockerfile
+    build:
+      ## Specify context
+      context: .
+      ## args only active during build time, can't be accessed during run time
+      args:
+        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+        REGION: ${REGION}
+    # environments
     env_file:
       - .env
-
-  # service 2 - dynamoDB
+    environment:
+      APP_ENV: production
