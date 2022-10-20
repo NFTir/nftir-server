@@ -17,8 +17,8 @@ import (
 	"github.com/jamespearly/loggly"
 )
 
-/*
-@func: HandleException() - loads environment varables
+/**
+@func: HandleException() - handdle error exception
 
 @param e error - the passed in error
 */
@@ -28,6 +28,14 @@ func HandleException(e error) {
 	}
 }
 
+
+/**
+@func: HandleLoggly() - Handle interacting with Loggly
+
+@param httpLogglyMessage models.HttpLogglyMessage
+
+@param level string
+*/
 func HandleLoggly(httpLogglyMessage models.HttpLogglyMessage, level string) {
 	logglyClient := loggly.New("NFTir")
 

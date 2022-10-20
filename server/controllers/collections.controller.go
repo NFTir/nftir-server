@@ -18,7 +18,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-/*
+/**
 @func: HandleException() - loads environment varables
 
 @param context *gin.Context - context from gin

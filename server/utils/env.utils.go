@@ -5,7 +5,7 @@
 	@Purpose: env.utils.go provides function that helps load environemnt variables
 */
 
-/* @package initializers */
+/** @package initializers */
 package utils
 
 // import packages
@@ -13,7 +13,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-/*
+/**
 @func: LoadEnvVars() - loads environment varables
 */
 func LoadEnvVars()  {

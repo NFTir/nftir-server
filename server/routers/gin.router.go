@@ -5,7 +5,7 @@
 	@Purpose: gin.router.go provides function(s) related to gin's default router
 */
 
-/* @package services */
+/** @package services */
 package routers
 
 // import packages
@@ -15,7 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-/*
+/**
 @func: SetupRouter() - set up RESTful endpoints
 */
 func SetupRouter(routerGroup *gin.RouterGroup) {
