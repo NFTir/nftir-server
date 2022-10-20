@@ -19,4 +19,4 @@ services:
     env_file:
       - .env
     environment:
-      APP_ENV: production
+      APP_MODE: release

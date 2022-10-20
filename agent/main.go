@@ -23,7 +23,7 @@ var (
 
 /* @func: init() - run before main() */
 func init()  {
-	if (os.Getenv("APP_ENV") != "production") {
+	if (os.Getenv("APP_MODE") != "release") {
 		utils.LoadEnvVars()
 	}
 	db = utils.EstablishAwsDynamodbSession()
