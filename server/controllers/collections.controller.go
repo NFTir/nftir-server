@@ -25,10 +25,6 @@ import (
 */
 func GetStatus(context *gin.Context) {
 
-	// load time zone
-    loc, e := time.LoadLocation("EST")
-	utils.HandleException(e);
-
 	// set up LogglyHttpMessage
 	logglyHttpMessage := models.HttpLogglyMessage{
 		Status_Code: http.StatusOK,
@@ -42,7 +38,7 @@ func GetStatus(context *gin.Context) {
 
 	// HTTP Response
 	context.JSON(http.StatusOK, gin.H{
-		"System-Time": time.Now().In(loc),
+		"System-Time": time.Now(),
 		"Status": http.StatusOK,
 	  })
 }
