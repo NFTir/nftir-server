@@ -38,5 +38,9 @@ func init()  {
 func main() {
 	basePath := server.Group("/v1/nnguyen6")
 	routers.SetupRouter(basePath);
-	server.Run(os.Getenv("SOURCE_IP") + os.Getenv("PORT"))
+	if (os.Getenv("GIN_MODE") != "release") {
+		server.Run(os.Getenv("SOURCE_IP"))
+	} else {
+		server.Run(":"+os.Getenv("PORT"))
+	}
 }
