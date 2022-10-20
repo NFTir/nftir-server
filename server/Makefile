@@ -17,10 +17,10 @@ go-build-local: clean server run
 
 .PHONY: clean
 clean: 
-	go clean
+	go $@
 
-server: 
-	go build -o $@ .
+build: server
+	go $@ -o $< .
 
 run: server
 	./$<
