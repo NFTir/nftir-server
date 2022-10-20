@@ -2,12 +2,12 @@
 DEV_MODE_PATH=~/go/bin/CompileDaemon ##https://github.com/githubnemo/CompileDaemon
 DEV_MODE_CMD=-command
 APP=server
-SERVER_IMAGE=nnguyen6/nftir-server:$(SERVER_TAG)
+SERVER_IMAGE=logann131/nftir-server:$(SERVER_TAG)
 SERVER_TAG=1.0
 DOCKER_RMI=docker rmi -f
+DOCKER_PUSH=docker push
 DOCKER_COMPOSE_BUILD=docker compose build --no-cache
 DOCKER_COMPOSE_DOWN=docker compose down
-DOCKER_COMPOSE_REMOVE=docker compose
 DOCKER_COMPOSE_UP=docker compose up -d
 
 
@@ -55,7 +55,6 @@ down-container:
 up-container:
 	$(DOCKER_COMPOSE_UP)
 
-
 ## Clean app
 .PHONY: clean-app
 clean-app: down-container remove-image
@@ -63,3 +62,8 @@ clean-app: down-container remove-image
 ## build app
 .PHONY: build-app
 build-app: start-image start-container
+
+## Push app to the hub
+.PHONY: push-image
+push-image: start-image 
+	$(DOCKER_PUSH) $(SERVER_IMAGE)

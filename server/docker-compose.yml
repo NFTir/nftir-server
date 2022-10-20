@@ -6,7 +6,7 @@ services:
   ## server service
   server:
     ## set image name
-    image: nnguyen6/nftir-server:1.0
+    image: logann131/nftir-server:1.0
     ## build the image
     build:
       context: .
