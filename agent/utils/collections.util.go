@@ -15,6 +15,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
+
+	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
 
 /*
@@ -25,7 +28,7 @@ import (
 	- responseLen int: the length of the response
 	- err error: error
 */
-func RetrieveCollectionRanking() (NFTGoData *models.NFTGoData, responseLen int, err error) {
+func retrieveCollectionRanking() (NFTGoData *models.NFTGoData, responseLen int, err error) {
 	log.Println("Fetching data from NFTGo server...")
 	// retrieve env vars
 	NFTGO_API_URL := os.Getenv("NFTGO_API_URL")
@@ -59,4 +62,64 @@ func RetrieveCollectionRanking() (NFTGoData *models.NFTGoData, responseLen int, 
 
 	// return NFTGoData and nil for err
 	return NFTGoData, responseLen, nil
+}
+
+
+/*
+@func: clientProcessor() - processes parameters and sends message to Loggly 
+
+@params
+	- logglyClient *loggly.ClientType := jearly/loggly
+	- NFTGoData *models.NFTGoData := models.NFTGoData
+	- responseLen int: the length of the response
+	- err error: error
+*/
+func clientProcessor(tableName string, NFTGoData *models.NFTGoData, responseLen int, err error, db *dynamodb.DynamoDB)  {
+	
+	// if err := controllers.RetrieveCollectionRanking() != nil, send a failed message to loggly then fatalize the process with err message and a call to os.Exit(1)
+	if err != nil {
+		// init LogglyMessage struct with failed Request_Status and Data_Length equals to 0
+		LogglyMessage := models.LogglyMessage{Request_Status: "failure", Data_Length: 0}
+
+		// Handle Loggly
+		HandleLoggly(LogglyMessage, "error")
+		
+		// fatilze the error
+		log.Fatal(err)
+	}
+
+	// if err == nil, prepare a LogglyMessage struct with successful Request_Staus and Data_Length 
+	LogglyMessage := models.LogglyMessage{Request_Status: "success", Data_Length: responseLen}
+
+	// Handle Loggly
+	HandleLoggly(LogglyMessage, "info")
+	
+	// Pushing NFTGo collections to table
+	log.Println("Pushing NFTGo collections to table "+tableName)
+	for _, collection := range NFTGoData.Collections {
+		PutCollectionInput(tableName, collection, db)
+	}
+	log.Println("Successfully push collection items to table "+tableName)
+	
+	log.Println("Refetching in 6 hours...")
+}
+
+
+/*
+@func: fetchDataAsync() - fetching data from NFTGo server
+@params:
+	- logglyClient *loggly.ClientType := jearly/loggly
+	- tableName string: the name of the table
+	- db *dynamodb.DynamoDB: dynamodb connection
+*/
+func FetchDataAsync(tableName string, db *dynamodb.DynamoDB) {
+	go func () {
+		// Fetching data from NFTGo server
+		NFTGoData, responseLen, err := retrieveCollectionRanking();
+					
+		// Processing data and push collection items to dynamodb table tableName
+		clientProcessor(tableName, NFTGoData, responseLen, err, db);
+	}()
+	timer := time.NewTimer(6*time.Hour)
+	<-timer.C
 }

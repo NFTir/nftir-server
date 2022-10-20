@@ -14,12 +14,10 @@ import (
 	"os"
 
 	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/jamespearly/loggly"
 )
 
 // initialize global variables
 var (
-	logglyClient *loggly.ClientType // loggyClient := jearly/loggly
 	db *dynamodb.DynamoDB
 )
 
@@ -28,11 +26,10 @@ func init()  {
 	if (os.Getenv("APP_ENV") != "production") {
 		utils.LoadEnvVars()
 	}
-	logglyClient = loggly.New("NFTir")
 	db = utils.EstablishAwsDynamodbSession()
 }
 
 /* @function main() - root function */
 func main()  {
-	controllers.PeriodicallyFetchData(logglyClient, os.Getenv("TABLE_NAME"), db)
+	controllers.PeriodicallyFetchData(os.Getenv("TABLE_NAME"), db)
 }

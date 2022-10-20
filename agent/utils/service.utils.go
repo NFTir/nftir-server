@@ -9,7 +9,13 @@
 package utils
 
 // import packages
-import "log"
+import (
+	"NFTir/agent/models"
+	"encoding/json"
+	"log"
+
+	"github.com/jamespearly/loggly"
+)
 
 /*
 @func: HandleException() - loads environment varables
@@ -20,4 +26,24 @@ func HandleException(e error) {
 	if (e != nil) {
 		log.Fatal(e);
 	}
+}
+
+
+/**
+@func: HandleLoggly() - Handle interacting with Loggly
+
+@param httpLogglyMessage models.HttpLogglyMessage
+
+@param level string
+*/
+func HandleLoggly(logglyMessage models.LogglyMessage, level string) {
+	logglyClient := loggly.New("NFTir")
+
+	// stringify struct to prepare for jearly/loggly.Send()
+	stringifiedLogglyMessage, marshalErr := json.Marshal(logglyMessage)
+	HandleException(marshalErr)
+
+	// Send message to Loggly
+	logglyErr := logglyClient.Send(level, string(stringifiedLogglyMessage)); 
+	HandleException(logglyErr)
 }

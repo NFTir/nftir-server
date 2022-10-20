@@ -157,3 +157,26 @@ func DeleteTable(tableName string, db *dynamodb.DynamoDB) {
 		}
 	}
 }
+
+
+/*
+@func: setUpTableAsync() - set up dynamodb table
+@params:
+	- tableName string: the name of the table
+	- db *dynamodb.DynamoDB: dynamodb connection
+@TODO: Implement real ASYNC/AWAIT
+*/
+func SetUpTableAsync(tableName string, db *dynamodb.DynamoDB) {
+	log.Println("Starting polling process...")
+
+	// Delete table tableName if the table already exists
+	DeleteTable(tableName, db)
+	
+	// Creating new table tableName
+	log.Println("Creating new table "+tableName+"...")
+	CreateNFTirTable(tableName, db)
+	// Give AWS 10 seconds to create and initialize table
+	timer2 := time.NewTimer(10*time.Second)
+	<-timer2.C
+	log.Println("Finished initializing table "+tableName+".")
+}
