@@ -5,7 +5,7 @@ version: '3.8'
 services:
   agent:
     #image name
-    image: nnguyen6/agent:1.0
+    image: nnguyen6/nftir-agent:1.0
     # build the Dockerfile
     build:
       ## Specify context
