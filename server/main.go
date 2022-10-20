@@ -30,8 +30,8 @@ func init()  {
 	// set up gin engine
 	server = gin.Default()
 
-	// Gin trust all proxies by default. 192.168.1.2 typically assigned to home routers.
-	server.SetTrustedProxies([]string{"192.168.1.2"})
+	// Gin trust all proxies by default and it's not safe. Set trusted proxy to home router to to mitigate 
+	server.SetTrustedProxies([]string{os.Getenv("HOME_ROUTER")})
 }
 
 /* @func main() - root function */
