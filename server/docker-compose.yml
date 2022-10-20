@@ -1,0 +1,21 @@
+# specify version
+version: '3.8'
+
+# specify services
+services:
+  ## server service
+  server:
+    ## set image name
+    image: nnguyen6/nftir-server:1.0
+    ## build the image
+    build:
+      context: .
+      args:
+        PORT: ${PORT}
+    ## map ports
+    ports:
+      - '127.0.0.1:${PORT}:${PORT}'
+    # environments
+    env_file: .env
+    environment:
+      GIN_MODE: release
