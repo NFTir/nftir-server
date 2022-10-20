@@ -14,13 +14,11 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jamespearly/loggly"
 )
 
 // initialize global variables
 var (
 	server      	*gin.Engine
-	logglyClient 	*loggly.ClientType // loggyClient := jearly/loggly
 )
 
 /* @func: init() - run before main() */
@@ -28,8 +26,10 @@ func init()  {
 	if (os.Getenv("GIN_MODE") != "release") {
 		utils.LoadEnvVars()
 	}
-	logglyClient = loggly.New("NFTir")
+	
+	// set up gin engine
 	server = gin.Default()
+
 	// Gin trust all proxies by default. 192.168.1.2 typically assigned to home routers.
 	server.SetTrustedProxies([]string{"192.168.1.2"})
 }
