@@ -8,8 +8,10 @@
 /* @package models */
 package models
 
-/* @struct LogglyMessage - message struct to send to loggly*/
-type LogglyMessage struct {
-	Request_Status 	string	`json:"request_status"`
-	Data_Length 	int 	`json:"data_length"`
+/* @struct LogglyHttpMessage - HTTP message struct to send to loggly*/
+type HttpLogglyMessage struct {
+	Status_Code 	uint 	`json:"status_code"`
+	Method_Type 	string	`json:"method_type"`
+	Source_Ip 		string 	`json:"source_ip"`
+	Req_Path 		string 	`json:"req_path"`
 }
