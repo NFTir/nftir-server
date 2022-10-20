@@ -18,5 +18,5 @@ import (
 */
 func LoadEnvVars()  {
 	err := godotenv.Load();
-	HandleException(err, "Error Loading .env file");
+	HandleException(err);
 }
