@@ -15,10 +15,11 @@ DOCKER_BUILD_SCRIPT = 	docker build $\
 						--no-cache $\
 						-t $(SERVER_IMAGE) .
 DOCKER_RUN_SCRIPT = docker run -d --rm $\
-					--env-file .env $\
-					-e GIN_MODE=release $\
-					-p $(PORT):$(PORT) $\
-					$(SERVER_IMAGE)
+		    		--name NFTir-server $\
+		    		--env-file .env $\
+		    		-e GIN_MODE=release $\
+		    		-p $(PORT):$(PORT) $\
+		    		$(SERVER_IMAGE)
 DOCKER_COMPOSE_BUILD=docker compose build --no-cache
 DOCKER_COMPOSE_DOWN=docker compose down
 DOCKER_COMPOSE_UP=docker compose up -d
