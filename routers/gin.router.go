@@ -15,7 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @dev handles RESTful endpoints
+// @dev Handles RESTful endpoints
 //
 // @param routerGroup *gin.RouterGroup
 func RouterHandler(routerGroup *gin.RouterGroup) {

@@ -16,7 +16,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @dev Initializes global variables
+// @notice global variables
 var (
 	server      	*gin.Engine
 )

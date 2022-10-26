@@ -5,7 +5,7 @@
 	@Purpose: env.utils.go provides function that helps load environemnt variables
 */
 
-// @package initializers
+// @package
 package utils
 
 // @import

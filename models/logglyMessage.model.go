@@ -5,10 +5,10 @@
 	@Purpose: logglyMessage.model.go provides LogglyMessage struct to send to loggly
 */
 
-// @package models
+// @package
 package models
 
-// @dev HTTP message struct to send to loggly
+// @notice HTTP message struct to send to loggly
 type HttpLogglyMessage struct {
 	Status_Code 	uint 	`json:"status_code"`
 	Method_Type 	string	`json:"method_type"`

@@ -5,7 +5,7 @@
 	@Purpose: error.utils.go provides function that helps handle exceptions
 */
 
-// @package initializers
+// @package
 package utils
 
 // @import
