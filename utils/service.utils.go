@@ -36,8 +36,7 @@ func HandleException(e error) {
 
 @param level string
 */
-func HandleLoggly(httpLogglyMessage models.HttpLogglyMessage, level string) {
-	logglyClient := loggly.New("NFTir")
+func HandleLoggly(logglyClient *loggly.ClientType, httpLogglyMessage models.HttpLogglyMessage, level string) {
 
 	// stringify struct to prepare for jearly/loggly.Send()
 	stringifiedLogglyMessage, marshalErr := json.Marshal(httpLogglyMessage)
