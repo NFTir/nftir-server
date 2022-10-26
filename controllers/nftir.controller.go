@@ -5,10 +5,10 @@
 	@Purpose: collections.service.go provides function(s) to help client process data
 */
 
-/* @package services */
+// @package
 package controllers
 
-// import packages
+// @import
 import (
 	"NFTir/server/models"
 	"NFTir/server/utils"
@@ -19,15 +19,15 @@ import (
 	"github.com/jamespearly/loggly"
 )
 
+// @notice global variables
 var (
 	logglyClient = loggly.New("NFTir")
 )
 
-/**
-@func: GetStatus() - servers the GET/status path in routers.RouterHandler
 
-@param context *gin.Context - context from gin
-*/
+// @dev Serves the GET/status path in routers.RouterHandler
+// 
+// @param context *gin.Context
 func GetStatus(context *gin.Context) {
 	// Handle request with wrong path 
 	if err := utils.HandleHTTPException(context, logglyClient); err == "PATH" {
@@ -40,8 +40,6 @@ func GetStatus(context *gin.Context) {
 		context.AbortWithStatus(http.StatusMethodNotAllowed)
 		return;
 	}
-
-
 
 	// set up successful LogglyHttpMessage
 	logglyHttpMessage := models.HttpLogglyMessage{
