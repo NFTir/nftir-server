@@ -11,14 +11,14 @@ DOCKER_PUSH=docker push
 DOCKER_IMAGE_LIST_ID=docker images -q
 DOCKER_CONTAINER_LIST_ID=docker ps -aq
 DOCKER_BUILD_SCRIPT = 	docker build $\
-						--build-arg PORT=$(PORT) $\
+						--build-arg PORT=$(PRODUCTION_PORT) $\
 						--no-cache $\
 						-t $(SERVER_IMAGE) .
 DOCKER_RUN_SCRIPT = docker run -d --rm $\
 		    		--name NFTir-server $\
 		    		--env-file .env $\
 		    		-e GIN_MODE=release $\
-		    		-p $(PORT):$(PORT) $\
+		    		-p $(PRODUCTION_PORT):$(PRODUCTION_PORT) $\
 		    		$(SERVER_IMAGE)
 DOCKER_COMPOSE_BUILD=docker compose build --no-cache
 DOCKER_COMPOSE_DOWN=docker compose down

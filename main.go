@@ -41,6 +41,6 @@ func main() {
 	if (os.Getenv("GIN_MODE") != "release") {
 		server.Run(os.Getenv("SOURCE_IP"))
 	} else {
-		server.Run(":"+os.Getenv("PORT"))
+		server.Run(":"+os.Getenv("PRODUCTION_PORT"))
 	}
 }

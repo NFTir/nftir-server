@@ -11,10 +11,10 @@ services:
     build:
       context: .
       args:
-        PORT: ${PORT}
+        PORT: ${PRODUCTION_PORT}
     ## map ports
     ports:
-      - '127.0.0.1:${PORT}:${PORT}'
+      - '127.0.0.1:41105:${PRODUCTION_PORT}'
     # environments
     env_file: .env
     environment:

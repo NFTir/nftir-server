@@ -3,10 +3,10 @@ SERVER_IMAGE=logann131/nftir-server:$(SERVER_TAG)
 SERVER_TAG=1.0
 CONTAINER_NAME=NFTir-server
 DOCKER_RUN_SCRIPT = docker run -d --rm $\
-		    		--name NFTir-server $\
+		    		--name ${CONTAINER_NAME} $\
 		    		--env-file .env $\
 		    		-e GIN_MODE=release $\
-		    		-p $(PORT):$(PORT) $\
+		    		-p 41105:$(PRODUCTION_PORT) $\
 		    		$(SERVER_IMAGE)
 
 DOCKER_RM_SCRIPT  = docker rm -f $(CONTAINER_NAME)
