@@ -16,8 +16,8 @@ import (
 )
 
 /**
-@func: SetupRouter() - set up RESTful endpoints
+@func: RouterHandler() - handles RESTful endpoints
 */
-func SetupRouter(routerGroup *gin.RouterGroup) {
+func RouterHandler(routerGroup *gin.RouterGroup) {
 	routerGroup.GET("/status", controllers.GetStatus)
 }

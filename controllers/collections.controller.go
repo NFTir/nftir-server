@@ -20,51 +20,30 @@ import (
 )
 
 var (
-	logglyHttpMessage models.HttpLogglyMessage
 	logglyClient = loggly.New("NFTir")
 )
 
 /**
-@func: HandleException() - loads environment varables
+@func: GetStatus() - servers the GET/status path in routers.RouterHandler
 
 @param context *gin.Context - context from gin
 */
 func GetStatus(context *gin.Context) {
-	// Handle request methods that are not GET method
-	if cMethod := context.Request.Method; cMethod != "GET" {
-		// set up LogglyHttpMessage
-		logglyHttpMessage = models.HttpLogglyMessage{
-			Status_Code: http.StatusMethodNotAllowed,
-			Method_Type: context.Request.Method,
-			Source_Ip: context.ClientIP(),
-			Req_Path: context.FullPath(),
-		}
-
-		// Handle Loggly
-		utils.HandleLoggly(logglyClient, logglyHttpMessage, "error")
-
-		// Abort with status
-		context.AbortWithStatus(http.StatusMethodNotAllowed)
-		return
-	} 
-	
-
 	// Handle request with wrong path 
-	if cPath := context.FullPath(); cPath != "v1/nnguyen6/status" {
-		// set up LogglyHttpMessage
-		logglyHttpMessage = models.HttpLogglyMessage{
-			Status_Code: http.StatusNotFound,
-			Method_Type: context.Request.Method,
-			Source_Ip: context.ClientIP(),
-			Req_Path: context.FullPath(),
-		}
-
-		// Handle Loggly
-		utils.HandleLoggly(logglyClient, logglyHttpMessage, "error")
+	if err := utils.HandleHTTPException(context, logglyClient); err == "PATH" {
+		context.AbortWithStatus(http.StatusNotFound)
+		return;
+	}
+	
+	// Handle request methods that are not GET method
+	if err := utils.HandleHTTPException(context, logglyClient); err == "METHOD" {
+		context.AbortWithStatus(http.StatusMethodNotAllowed)
+		return;
 	}
 
 
-	// set up LogglyHttpMessage
+
+	// set up successful LogglyHttpMessage
 	logglyHttpMessage := models.HttpLogglyMessage{
 		Status_Code: http.StatusOK,
 		Method_Type: context.Request.Method,
