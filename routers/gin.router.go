@@ -5,19 +5,19 @@
 	@Purpose: gin.router.go provides function(s) related to gin's default router
 */
 
-/** @package services */
+// @package services
 package routers
 
-// import packages
+// @import
 import (
 	"NFTir/server/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-/**
-@func: RouterHandler() - handles RESTful endpoints
-*/
+// @dev handles RESTful endpoints
+//
+// @param routerGroup *gin.RouterGroup
 func RouterHandler(routerGroup *gin.RouterGroup) {
 	routerGroup.GET("/status", controllers.GetStatus)
 }

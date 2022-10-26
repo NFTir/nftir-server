@@ -7,7 +7,7 @@
 // @package: main
 package main
 
-// Import packages
+// @import
 import (
 	"NFTir/server/routers"
 	"NFTir/server/utils"
@@ -16,12 +16,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// initialize global variables
+// @dev Initializes global variables
 var (
 	server      	*gin.Engine
 )
 
-/* @func: init() - run before main() */
+// @dev Runs before main() 
 func init()  {
 	if (os.Getenv("GIN_MODE") != "release") {
 		utils.LoadEnvVars()
@@ -34,11 +34,11 @@ func init()  {
 	server.SetTrustedProxies([]string{os.Getenv("HOME_ROUTER")})
 }
 
-/* @func main() - root function */
+// @dev Root function
 func main() {
 	basePath := server.Group("/v1/nnguyen6")
 	routers.RouterHandler(basePath);
-	
+
 	if (os.Getenv("GIN_MODE") != "release") {
 		server.Run(os.Getenv("SOURCE_IP"))
 	} else {

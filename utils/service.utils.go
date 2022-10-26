@@ -5,10 +5,10 @@
 	@Purpose: error.utils.go provides function that helps handle exceptions
 */
 
-/* @package initializers */
+// @package initializers
 package utils
 
-// import packages
+// @import
 import (
 	"NFTir/server/models"
 	"encoding/json"
@@ -19,13 +19,13 @@ import (
 	"github.com/jamespearly/loggly"
 )
 
-/**
-@func: HandleLoggly() - Handle interacting with Loggly
-
-@param httpLogglyMessage models.HttpLogglyMessage
-
-@param level string
-*/
+// @dev Handle interacting with Loggly
+//
+// @param logglyClient *loggly.ClientType
+//
+// @param httpLogglyMessage models.HttpLogglyMessage
+//
+// @param level string
 func HandleLoggly(logglyClient *loggly.ClientType, httpLogglyMessage models.HttpLogglyMessage, level string) {
 
 	// stringify struct to prepare for jearly/loggly.Send()
@@ -37,11 +37,10 @@ func HandleLoggly(logglyClient *loggly.ClientType, httpLogglyMessage models.Http
 	HandleException(logglyErr)
 }
 
-/**
-@func: HandleException() - handdle error exception
 
-@param e error - the passed in error
-*/
+// @dev Handdle error exception
+//
+// @param e error - the passed in error
 func HandleException(e error) {
 	if (e != nil) {
 		log.Fatal(e);
@@ -49,15 +48,13 @@ func HandleException(e error) {
 }
 
 
-/**
-@func: HandleHTTPException() - handdle HTTP exception
-
-@param context *gin.Context
-
-@param logglyClient *loggly.ClientType
-
-@return err string
-*/
+// @dev Handdle HTTP exception
+// 
+// @param context *gin.Context
+// 
+// @param logglyClient *loggly.ClientType
+// 
+// @return err string
 func HandleHTTPException(context *gin.Context, logglyClient *loggly.ClientType) (err string) {
 		if cPath := context.FullPath(); cPath != "/v1/nnguyen6/status" {
 			// set up failed  LogglyHttpMessage
