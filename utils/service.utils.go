@@ -49,6 +49,15 @@ func HandleException(e error) {
 }
 
 
+/**
+@func: HandleHTTPException() - handdle HTTP exception
+
+@param context *gin.Context
+
+@param logglyClient *loggly.ClientType
+
+@return err string
+*/
 func HandleHTTPException(context *gin.Context, logglyClient *loggly.ClientType) (err string) {
 		if cPath := context.FullPath(); cPath != "/v1/nnguyen6/status" {
 			// set up failed  LogglyHttpMessage
@@ -58,7 +67,6 @@ func HandleHTTPException(context *gin.Context, logglyClient *loggly.ClientType) 
 				Source_Ip: context.ClientIP(),
 				Req_Path: context.FullPath(),
 			}
-			log.Println(cPath)
 
 			// Handle Loggly
 			HandleLoggly(logglyClient, logglyHttpMessage, "error")
