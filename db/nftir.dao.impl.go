@@ -30,6 +30,11 @@ func NftirDaoConstructor(dynamodb *dynamodb.DynamoDB) NftirDao {
 	}
 }
 
+// @notice Gets all the collections from dynamoDB table
+// 
+// @return *[]models.Collection
+// 
+// @return error
 func (ndi *NftirDaoImpl) GetAll() (*[]models.Collection, error) {
 
 	// Scan the dynamoDB `TABLE_NAME` table
@@ -56,10 +61,24 @@ func (ndi *NftirDaoImpl) GetAll() (*[]models.Collection, error) {
 	return &collections, nil
 }
 
+// @dev Gets the total number of collections stored in the NFTier dynamoDB table
+// 
+// @return *models.HttpStatusMessage
+// 
+// @return error
 func (ndi *NftirDaoImpl) GetStatus() (*models.HttpStatusMessage, error) {
 	return nil, nil
 }
 
+// @dev Gets a subset of collections based on the params passed in
+// 
+// @param volumeUsd *float64
+// 
+// @param marketCapUsd *float64
+// 
+// @return *[]models.Colelction
+// 
+// @return error
 func (ndi *NftirDaoImpl) GetCollectionsBy(volumeUsd *float64, marketCapUsd *float64) (*[]models.Collection, error) {
 	return nil, nil;
 }

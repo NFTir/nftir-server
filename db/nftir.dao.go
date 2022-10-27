@@ -28,7 +28,7 @@ type NftirDao interface {
 	// @return error
 	GetStatus() (*models.HttpStatusMessage, error)
 
-	// @nocetice Gets a subset of collections based on the params passed in
+	// @notice Gets a subset of collections based on the params passed in
 	// 
 	// @param volumeUsd *float64
 	// 
