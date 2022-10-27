@@ -34,7 +34,7 @@ func init()  {
 	// load env variables
 	if (os.Getenv("GIN_MODE") != "release") {utils.LoadEnvVars()}
 	
-	// set up gin engine
+	// set up gin engine - Default With the Logger and Recovery middleware already attached
 	server = gin.Default()
 
 	// Gin trust all proxies by default and it's not safe. Set trusted proxy to home router to to mitigate 
@@ -55,6 +55,8 @@ func init()  {
 
 // @dev Root function
 func main() {
+	server.HandleMethodNotAllowed = true
+
 	// base path
 	basePath := server.Group("/v1/nnguyen6")
 
