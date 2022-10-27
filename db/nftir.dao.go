@@ -37,5 +37,5 @@ type NftirDao interface {
 	// @return *[]models.Colelction
 	// 
 	// @return error
-	GetCollectionsBy(volumeUsd *float64, marketCapUsd *float64) (*[]models.Collection, error)
+	GetCollectionsGreaterThan(volumeUsd *float32) (*[]models.Collection, error)
 }

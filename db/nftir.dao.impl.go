@@ -16,6 +16,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+	"github.com/aws/aws-sdk-go/service/dynamodb/expression"
 )
 
 // @notice Holds information related to dynamodb
@@ -94,6 +95,41 @@ func (ndi *NftirDaoImpl) GetStatus() (*models.HttpStatusMessage, error) {
 // @return *[]models.Colelction
 // 
 // @return error
-func (ndi *NftirDaoImpl) GetCollectionsBy(volumeUsd *float64, marketCapUsd *float64) (*[]models.Collection, error) {
-	return nil, nil;
+func (ndi *NftirDaoImpl) GetCollectionsGreaterThan(volumeUsd *float32) (*[]models.Collection, error) {
+	// get filter expression
+	filter := expression.Name("Volume_usd").GreaterThanEqual(expression.Value(*volumeUsd))
+
+	// Build expression
+	scanExpression, err := expression.NewBuilder().WithFilter(filter).Build()
+	if (err != nil) {return nil, err}
+
+	// Init ScanInput param
+	ScanInputParams := dynamodb.ScanInput{
+		ExpressionAttributeNames: scanExpression.Names(),
+		ExpressionAttributeValues: scanExpression.Values(),
+		FilterExpression: scanExpression.Filter(),
+		TableName: aws.String(os.Getenv("TABLE_NAME")),
+	}
+
+
+	// get collectionSO from dynammodb.Scan API
+	collectionSO, err := ndi.dynamodb.Scan(&ScanInputParams)
+	if err != nil {return nil, err}
+
+	// init a dynamic slice => push collections to new slice
+	collections := make([]models.Collection, *collectionSO.Count)
+
+	// process collectionSO to get collections data
+	for index, collectionAV := range collectionSO.Items {
+		collection := models.Collection{}
+
+		if err = dynamodbattribute.UnmarshalMap(collectionAV, &collection); err != nil {
+			return nil, err
+		}
+
+		// filter with second param
+		collections[index] = collection
+	}
+
+	return &collections, nil;
 }
