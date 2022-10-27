@@ -19,5 +19,5 @@ type HttpLogglyMessage struct {
 // @notice information related to message struct serving GET/status
 type HttpStatusMessage struct {
 	Table string			`json:"table"`
-	Record_Count string		`json:"record_count"`
+	Record_Count *int64		`json:"record_count"`
 }

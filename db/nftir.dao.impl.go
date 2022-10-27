@@ -67,7 +67,22 @@ func (ndi *NftirDaoImpl) GetAll() (*[]models.Collection, error) {
 // 
 // @return error
 func (ndi *NftirDaoImpl) GetStatus() (*models.HttpStatusMessage, error) {
-	return nil, nil
+	// get ScanOutput from dynamodb table
+	collectionSO, err := ndi.dynamodb.Scan(&dynamodb.ScanInput{
+		TableName: aws.String(os.Getenv("TABLE_NAME")),
+	})
+	
+	// Handle exception
+	if err != nil {return nil, err}
+
+
+	// init HttpStatusMessage
+	httpStatusMessage := models.HttpStatusMessage{
+		Table: os.Getenv("TABLE_NAME"),
+		Record_Count: collectionSO.Count,
+	}
+
+	return &httpStatusMessage, nil
 }
 
 // @dev Gets a subset of collections based on the params passed in
