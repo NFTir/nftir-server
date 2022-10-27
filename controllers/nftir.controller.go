@@ -38,26 +38,7 @@ func NftirControllerConstructor(nftirDao db.NftirDao, logglyClient	*loggly.Clien
 // @param context *gin.Context
 func (nc *NftirController) GetAll(context *gin.Context) {
 
-	// handle request with wrong path 
-	if httpLogglyMessage, err := utils.HandleHTTPException(context, nc.logglyClient, context.FullPath(), context.Request.Method); err == "PATH" {
-		if err := utils.HandleLoggly(nc.logglyClient, *httpLogglyMessage, "error"); err != nil {
-			context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"loggly_error": err.Error()})
-			return;
-		}
-		context.AbortWithStatus(http.StatusNotFound)
-		return;
-	}
-	
-	// handle request methods that are not GET method
-	if httpLogglyMessage, err := utils.HandleHTTPException(context, nc.logglyClient, context.FullPath(), context.Request.Method); err == "METHOD" {
-		if err := utils.HandleLoggly(nc.logglyClient, *httpLogglyMessage, "loggly_error"); err != nil {
-			context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
-		}
-		context.AbortWithStatus(http.StatusMethodNotAllowed)
-		return;
-	}
-
-	// handle successful loggly
+	// handle loggly
 	httpLogglyMessage := models.HttpLogglyMessage{
 		Status_Code: http.StatusOK,
 		Method_Type: context.Request.Method,
@@ -65,7 +46,7 @@ func (nc *NftirController) GetAll(context *gin.Context) {
 		Req_Path: context.FullPath(),
 	}
 	if err := utils.HandleLoggly(nc.logglyClient, httpLogglyMessage, "info"); err != nil {
-		context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"loggly_error": err})
+		context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"loggly_error": err.Error()})
 		return;
 	}
 
@@ -85,26 +66,7 @@ func (nc *NftirController) GetAll(context *gin.Context) {
 // 
 // @param context *gin.Context
 func (nc *NftirController) GetStatus(context *gin.Context) {
-	// handle request with wrong path 
-	if httpLogglyMessage, err := utils.HandleHTTPException(context, nc.logglyClient, context.FullPath(), context.Request.Method); err == "PATH" {
-		if err := utils.HandleLoggly(nc.logglyClient, *httpLogglyMessage, "error"); err != nil {
-			context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"loggly-error": err.Error()})
-			return;
-		}
-		context.AbortWithStatus(http.StatusNotFound)
-		return;
-	}
-	
-	// handle request methods that are not GET method
-	if httpLogglyMessage, err := utils.HandleHTTPException(context, nc.logglyClient, context.FullPath(), context.Request.Method); err == "METHOD" {
-		if err := utils.HandleLoggly(nc.logglyClient, *httpLogglyMessage, "loggly-error"); err != nil {
-			context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
-		}
-		context.AbortWithStatus(http.StatusMethodNotAllowed)
-		return;
-	}
-
-	// handle successful loggly
+	// handle loggly
 	httpLogglyMessage := models.HttpLogglyMessage{
 		Status_Code: http.StatusOK,
 		Method_Type: context.Request.Method,

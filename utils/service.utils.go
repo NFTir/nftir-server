@@ -13,9 +13,7 @@ import (
 	"NFTir/server/models"
 	"encoding/json"
 	"log"
-	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"github.com/jamespearly/loggly"
 )
 
@@ -47,37 +45,4 @@ func HandleException(e error) {
 	if (e != nil) {
 		log.Fatal(e);
 	}
-}
-
-
-// @dev Handdle HTTP exception
-// 
-// @param context *gin.Context
-// 
-// @param logglyClient *loggly.ClientType
-// 
-// @return err string
-func HandleHTTPException(context *gin.Context, logglyClient *loggly.ClientType, httpFullPath string, httpMethod string) (logglyMessage *models.HttpLogglyMessage, err string) {
-		if cPath := context.FullPath(); cPath != httpFullPath {
-			// set up failed  LogglyHttpMessage
-			logglyHttpMessage := models.HttpLogglyMessage{
-				Status_Code: http.StatusNotFound,
-				Method_Type: context.Request.Method,
-				Source_Ip: context.ClientIP(),
-				Req_Path: context.FullPath(),
-			}
-
-			return &logglyHttpMessage, "PATH";
-			
-		} else if cMethod := context.Request.Method; cMethod != httpMethod {
-			logglyHttpMessage := models.HttpLogglyMessage{
-				Status_Code: http.StatusMethodNotAllowed,
-				Method_Type: context.Request.Method,
-				Source_Ip: context.ClientIP(),
-				Req_Path: context.FullPath(),
-			}
-
-			return &logglyHttpMessage, "METHOD";
-		} 
-		return nil, "";
 }
