@@ -26,15 +26,17 @@ import (
 // @param httpLogglyMessage models.HttpLogglyMessage
 //
 // @param level string
-func HandleLoggly(logglyClient *loggly.ClientType, httpLogglyMessage models.HttpLogglyMessage, level string) {
+func HandleLoggly(logglyClient *loggly.ClientType, httpLogglyMessage models.HttpLogglyMessage, level string) error {
 
 	// stringify struct to prepare for jearly/loggly.Send()
-	stringifiedLogglyMessage, marshalErr := json.Marshal(httpLogglyMessage)
-	HandleException(marshalErr)
+	stringifiedLogglyMessage, err := json.Marshal(httpLogglyMessage)
+	if err != nil {return err}
 
 	// Send message to Loggly
-	logglyErr := logglyClient.Send(level, string(stringifiedLogglyMessage)); 
-	HandleException(logglyErr)
+	err = logglyClient.Send(level, string(stringifiedLogglyMessage)); 
+	if err != nil {return err}
+
+	return nil
 }
 
 
@@ -55,8 +57,8 @@ func HandleException(e error) {
 // @param logglyClient *loggly.ClientType
 // 
 // @return err string
-func HandleHTTPException(context *gin.Context, logglyClient *loggly.ClientType) (err string) {
-		if cPath := context.FullPath(); cPath != "/v1/nnguyen6/status" {
+func HandleHTTPException(context *gin.Context, logglyClient *loggly.ClientType, httpFullPath string, httpMethod string) (logglyMessage *models.HttpLogglyMessage, err string) {
+		if cPath := context.FullPath(); cPath != httpFullPath {
 			// set up failed  LogglyHttpMessage
 			logglyHttpMessage := models.HttpLogglyMessage{
 				Status_Code: http.StatusNotFound,
@@ -65,23 +67,17 @@ func HandleHTTPException(context *gin.Context, logglyClient *loggly.ClientType) 
 				Req_Path: context.FullPath(),
 			}
 
-			// Handle Loggly
-			HandleLoggly(logglyClient, logglyHttpMessage, "error")
-
-			return "PATH";
-		} else if cMethod := context.Request.Method; cMethod != "GET" {
+			return &logglyHttpMessage, "PATH";
+			
+		} else if cMethod := context.Request.Method; cMethod != httpMethod {
 			logglyHttpMessage := models.HttpLogglyMessage{
 				Status_Code: http.StatusMethodNotAllowed,
 				Method_Type: context.Request.Method,
 				Source_Ip: context.ClientIP(),
 				Req_Path: context.FullPath(),
 			}
-	
-			// Handle Loggly
-			HandleLoggly(logglyClient, logglyHttpMessage, "error")
-	
-			return "METHOD";
-		} 
-		return;
-}
 
+			return &logglyHttpMessage, "METHOD";
+		} 
+		return nil, "";
+}
