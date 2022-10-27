@@ -10,54 +10,84 @@ package controllers
 
 // @import
 import (
+	"NFTir/server/db"
 	"NFTir/server/models"
 	"NFTir/server/utils"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jamespearly/loggly"
 )
 
-// @notice global variables
-var (
-	logglyClient = loggly.New("NFTir")
-)
+// @notice holds information related to NftirDao interface
+type NftirController struct {
+	NftirDao 		db.NftirDao
+	logglyClient	*loggly.ClientType
+}
 
+// @notice constructor
+func NftirControllerConstructor(nftirDao db.NftirDao, logglyClient	*loggly.ClientType) *NftirController {
+	return &NftirController {
+		NftirDao: nftirDao,
+		logglyClient: logglyClient,
+	}
+}
 
-// @dev Serves the GET/status path in routers.RouterHandler
+// @dev Serves the GET/all path in routers.RouterHandler
 // 
 // @param context *gin.Context
-func GetStatus(context *gin.Context) {
-	// Handle request with wrong path 
-	if err := utils.HandleHTTPException(context, logglyClient); err == "PATH" {
+func (nc *NftirController) GetAll(context *gin.Context) {
+
+	// handle request with wrong path 
+	if httpLogglyMessage, err := utils.HandleHTTPException(context, nc.logglyClient, context.FullPath(), context.Request.Method); err == "PATH" {
+		if err := utils.HandleLoggly(nc.logglyClient, *httpLogglyMessage, "error"); err != nil {
+			context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"loggly-error": err.Error()})
+			return;
+		}
 		context.AbortWithStatus(http.StatusNotFound)
 		return;
 	}
 	
-	// Handle request methods that are not GET method
-	if err := utils.HandleHTTPException(context, logglyClient); err == "METHOD" {
+	// handle request methods that are not GET method
+	if httpLogglyMessage, err := utils.HandleHTTPException(context, nc.logglyClient, context.FullPath(), context.Request.Method); err == "METHOD" {
+		if err := utils.HandleLoggly(nc.logglyClient, *httpLogglyMessage, "loggly-error"); err != nil {
+			context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		}
 		context.AbortWithStatus(http.StatusMethodNotAllowed)
 		return;
 	}
 
-	// set up successful LogglyHttpMessage
-	logglyHttpMessage := models.HttpLogglyMessage{
+	// handle loggly message
+	httpLogglyMessage := models.HttpLogglyMessage{
 		Status_Code: http.StatusOK,
 		Method_Type: context.Request.Method,
 		Source_Ip: context.ClientIP(),
 		Req_Path: context.FullPath(),
 	}
+	utils.HandleLoggly(nc.logglyClient, httpLogglyMessage, "info")
 
-	// Handle Loggly
-	utils.HandleLoggly(logglyClient, logglyHttpMessage, "info")
+	
+	// retrieve collections by implementing GetAll() from dao impl
+	collections, err := nc.NftirDao.GetAll()
+	if err!= nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return;
+	}
 
-	// HTTP Response
-	context.JSON(http.StatusOK, gin.H{
-		"System-Time": time.Now(),
-		"Status": http.StatusOK,
-		"ClientIP": context.ClientIP(),
-		"FullPath": context.FullPath(),
-	  })
+	// HTTP 200 Response
+	context.JSON(http.StatusOK, *collections)
 }
 
+
+// @dev Serves the GET/status path in routers.RouterHandler
+// 
+// @param context *gin.Context
+func (nc *NftirController) GetStatus(context *gin.Context) {
+	
+}
+
+
+// @notice HTTP endpoints
+func (nc *NftirController) FetchCollectionsRoutes(routerGroup *gin.RouterGroup) {
+	routerGroup.GET("/all", nc.GetAll)
+}
