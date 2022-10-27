@@ -14,6 +14,7 @@ import (
 	"NFTir/server/models"
 	"NFTir/server/utils"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jamespearly/loggly"
@@ -89,9 +90,27 @@ func (nc *NftirController) GetStatus(context *gin.Context) {
 	context.JSON(http.StatusOK, httpStatusMessage)
 }
 
+func (nc *NftirController) Search(context *gin.Context) {
+	// get volume param
+	volumeParam := context.DefaultQuery("volume_usd", "10000.00")
+
+	// convert from string to float 32
+	volume64, err := strconv.ParseFloat(volumeParam, 32)
+	if err != nil {context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Cannot parse float volume param"})}
+	volume32 := float32(volume64)
+
+	// Get collections
+	collections, err := nc.NftirDao.GetCollectionsGreaterThan(&volume32)
+	if err != nil {context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})}
+
+	// HTTP 200 Response
+	context.JSON(http.StatusOK, collections)
+}
+
 
 // @notice HTTP endpoints
 func (nc *NftirController) FetchCollectionsRoutes(routerGroup *gin.RouterGroup) {
 	routerGroup.GET("/all", nc.GetAll)
 	routerGroup.GET("/status", nc.GetStatus)
+	routerGroup.GET("/search", nc.Search)
 }
