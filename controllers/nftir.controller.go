@@ -11,6 +11,7 @@ package controllers
 // @import
 import (
 	"NFTir/server/db"
+	"NFTir/server/middleware"
 	"NFTir/server/models"
 	"NFTir/server/utils"
 	"net/http"
@@ -92,7 +93,7 @@ func (nc *NftirController) GetStatus(context *gin.Context) {
 
 func (nc *NftirController) Search(context *gin.Context) {
 	// get volume param
-	volumeParam := context.DefaultQuery("volume_usd", "10000.00")
+	volumeParam := context.MustGet("sanitizedParam").(string);
 
 	// convert from string to float 32
 	volume64, err := strconv.ParseFloat(volumeParam, 32)
@@ -112,5 +113,5 @@ func (nc *NftirController) Search(context *gin.Context) {
 func (nc *NftirController) FetchCollectionsRoutes(routerGroup *gin.RouterGroup) {
 	routerGroup.GET("/all", nc.GetAll)
 	routerGroup.GET("/status", nc.GetStatus)
-	routerGroup.GET("/search", nc.Search)
+	routerGroup.GET("/search/:volume_usd", middleware.SearchMiddleware(), nc.Search)
 }
