@@ -12,6 +12,9 @@ services:
       context: .
       args:
         PORT: ${PRODUCTION_PORT}
+        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+        REGION: ${REGION}
     ## map ports
     ports:
       - '127.0.0.1:41105:${PRODUCTION_PORT}'
