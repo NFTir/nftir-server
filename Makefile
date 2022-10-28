@@ -10,19 +10,19 @@ DOCKER_RM=docker rm -f
 DOCKER_PUSH=docker push
 DOCKER_IMAGE_LIST_ID=docker images -q
 DOCKER_CONTAINER_LIST_ID=docker ps -aq
-DOCKER_BUILD_SCRIPT = 	docker build $\
-						--build-arg PORT=$(PRODUCTION_PORT) $\
-						--build-arg AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID) $\
-						--build-arg AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY) $\
-						--build-arg REGION=$(REGION) $\
-						--no-cache $\
-						-t $(SERVER_IMAGE) .
+DOCKER_BUILD_SCRIPT = docker build $\ 
+			--build-arg PORT=$(PRODUCTION_PORT) $\
+			--build-arg AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID) $\
+			--build-arg AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY) $\
+			--build-arg REGION=$(REGION) $\
+			--no-cache $\
+			-t $(SERVER_IMAGE) .
 DOCKER_RUN_SCRIPT = docker run -d --rm $\
-		    		--name NFTir-server $\
-		    		--env-file .env $\
-		    		-e GIN_MODE=release $\
-		    		-p 41105:$(PRODUCTION_PORT) $\
-		    		$(SERVER_IMAGE)
+		    	--name NFTir-server $\
+		    	--env-file .env $\
+		    	-e GIN_MODE=release $\
+		    	-p 41105:$(PRODUCTION_PORT) $\
+		    	$(SERVER_IMAGE)
 DOCKER_COMPOSE_BUILD=docker compose build --no-cache
 DOCKER_COMPOSE_DOWN=docker compose down
 DOCKER_COMPOSE_UP=docker compose up -d

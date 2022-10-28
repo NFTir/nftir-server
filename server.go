@@ -22,11 +22,11 @@ import (
 
 // @notice global variables
 var (
-	server      	*gin.Engine
+	server		*gin.Engine
 	logglyClient	*loggly.ClientType
-	dbconn 			*dynamodb.DynamoDB
-	nd				db.NftirDao
-	nc 				*controllers.NftirController
+	dbconn		*dynamodb.DynamoDB
+	nd		db.NftirDao
+	nc		*controllers.NftirController
 )
 
 // @dev Runs before main() 
