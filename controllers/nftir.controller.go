@@ -23,12 +23,12 @@ import (
 
 // @notice holds information related to NftirDao interface
 type NftirController struct {
-	NftirDao 		db.NftirDao
+	NftirDao 	db.NftirDao
 	logglyClient	*loggly.ClientType
 }
 
 // @notice constructor
-func NftirControllerConstructor(nftirDao db.NftirDao, logglyClient	*loggly.ClientType) *NftirController {
+func NftirControllerConstructor(nftirDao db.NftirDao, logglyClient *loggly.ClientType) *NftirController {
 	return &NftirController {
 		NftirDao: nftirDao,
 		logglyClient: logglyClient,
