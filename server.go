@@ -7,6 +7,7 @@
 // @package: main
 package main
 
+// @import
 import (
 	"NFTir/server/controllers"
 	"NFTir/server/db"
@@ -17,8 +18,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jamespearly/loggly"
 )
-
-// @import
 
 // @notice global variables
 var (
