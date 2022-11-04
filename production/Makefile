@@ -38,6 +38,7 @@ docker-logout:
 remove-env:
 	@echo removing .env...
 	@rm .env
+	@echo Happy coding!
 
 ## build app -- ULTIMATE
 .PHONY: build-app
