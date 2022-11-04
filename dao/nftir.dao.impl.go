@@ -6,7 +6,7 @@
 */
 
 // @package
-package db
+package dao
 
 // @import
 import (

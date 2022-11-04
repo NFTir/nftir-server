@@ -10,11 +10,12 @@ package main
 // @import
 import (
 	"NFTir/server/controllers"
+	"NFTir/server/dao"
 	"NFTir/server/db"
+	"NFTir/server/routers"
 	"NFTir/server/utils"
 	"os"
 
-	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/gin-gonic/gin"
 	"github.com/jamespearly/loggly"
 )
@@ -23,9 +24,7 @@ import (
 var (
 	server		*gin.Engine
 	logglyClient	*loggly.ClientType
-	dbconn		*dynamodb.DynamoDB
-	nd		db.NftirDao
-	nc		*controllers.NftirController
+	nr				*routers.NftRouter
 )
 
 // @dev Runs before main() 
@@ -43,13 +42,17 @@ func init()  {
 	logglyClient = loggly.New("NFTir")
 
 	// init db connection
-	dbconn = utils.EstablishAwsDynamodbSession()
+	dbconn := db.EstablishAwsDynamodbSession()
 
 	// init nftirDao interface
-	nd = db.NftirDaoConstructor(dbconn)
+	nd := dao.NftirDaoConstructor(dbconn)
 
 	// init nftController
-	nc = controllers.NftirControllerConstructor(nd, logglyClient)
+	nc := controllers.NftirControllerConstructor(nd, logglyClient)
+
+	// init nftRouter 
+	nr = routers.NftRouterConstructor(nc)
+	
 }
 
 // @dev Root function
@@ -57,10 +60,10 @@ func main() {
 	server.HandleMethodNotAllowed = true
 
 	// base path
-	basePath := server.Group("/v1/nnguyen6")
+	basePath := server.Group("nnguyen6")
 
 	// init handlers
-	nc.FetchCollectionsRoutes(basePath)
+	nr.NftRoutes(*basePath)
 
 	// run server
 	if (os.Getenv("GIN_MODE") != "release") {

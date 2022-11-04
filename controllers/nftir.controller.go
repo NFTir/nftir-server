@@ -10,8 +10,7 @@ package controllers
 
 // @import
 import (
-	"NFTir/server/db"
-	"NFTir/server/middleware"
+	"NFTir/server/dao"
 	"NFTir/server/models"
 	"NFTir/server/utils"
 	"net/http"
@@ -23,12 +22,12 @@ import (
 
 // @notice holds information related to NftirDao interface
 type NftirController struct {
-	NftirDao 	db.NftirDao
+	NftirDao 	dao.NftirDao
 	logglyClient	*loggly.ClientType
 }
 
 // @notice constructor
-func NftirControllerConstructor(nftirDao db.NftirDao, logglyClient *loggly.ClientType) *NftirController {
+func NftirControllerConstructor(nftirDao dao.NftirDao, logglyClient *loggly.ClientType) *NftirController {
 	return &NftirController {
 		NftirDao: nftirDao,
 		logglyClient: logglyClient,
@@ -106,12 +105,4 @@ func (nc *NftirController) Search(context *gin.Context) {
 
 	// HTTP 200 Response
 	context.JSON(http.StatusOK, collections)
-}
-
-
-// @notice HTTP endpoints
-func (nc *NftirController) FetchCollectionsRoutes(routerGroup *gin.RouterGroup) {
-	routerGroup.GET("/all", nc.GetAll)
-	routerGroup.GET("/status", nc.GetStatus)
-	routerGroup.GET("/search/:volume_usd", middleware.SearchMiddleware(), nc.Search)
 }

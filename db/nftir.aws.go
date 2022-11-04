@@ -6,7 +6,7 @@
 */
 
 // @package
-package utils
+package db
 
 // @import
 import (
