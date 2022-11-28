@@ -69,18 +69,21 @@ func (ndi *NftirDaoImpl) GetAll() (*[]models.Collection, error) {
 // @return error
 func (ndi *NftirDaoImpl) GetStatus() (*models.HttpStatusMessage, error) {
 	// get ScanOutput from dynamodb table
-	collectionSO, err := ndi.dynamodb.Scan(&dynamodb.ScanInput{
-		TableName: aws.String(os.Getenv("TABLE_NAME")),
-	})
-	
+	// collectionSO, err := ndi.dynamodb.Scan(&dynamodb.ScanInput{
+	// 	TableName: aws.String(os.Getenv("TABLE_NAME")),
+	// })
 	// Handle exception
-	if err != nil {return nil, err}
+	// if err != nil {return nil, err}
 
+	// get describeTableOutput from dynamodb table
+	describeTableOutput, err := ndi.dynamodb.DescribeTable(&dynamodb.DescribeTableInput{TableName: aws.String(os.Getenv(("TABLE_NAME")))})
+	if err != nil {return nil, err}
+	// log.Println((*describeTableOutput.Table.ItemCount))
 
 	// init HttpStatusMessage
 	httpStatusMessage := models.HttpStatusMessage{
 		Table: os.Getenv("TABLE_NAME"),
-		Record_Count: collectionSO.Count,
+		Record_Count: describeTableOutput.Table.ItemCount,
 	}
 
 	return &httpStatusMessage, nil
