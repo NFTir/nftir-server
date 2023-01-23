@@ -9,7 +9,9 @@
 
 ## Overview
 
-NFTir/server is a golang app server hosting multiple RESTful endpoints that helps processing metadata and information of specific NFTs stored in an AWS DynamoDB table by [NFTir poller agent](https://github.com/NFTir/agent)
+NFTir/server is a Golang-based application server, boasts a plethora of RESTful endpoints that facilitate the efficient processing and management of metadata and information pertaining to specific NFTs through the utilization of the NFTGo API stored in an AWS DynamoDB table by [NFTir poller agent](https://github.com/NFTir/agent)
+
+
 
 ## Getting Started
 
