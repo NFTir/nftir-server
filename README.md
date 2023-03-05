@@ -5,8 +5,6 @@
 <h6 align="center">CSC 482 <h4>
 </p>
 
-###### Currently work in progress
-
 ## Overview
 
 NFTir/server is a Golang-based application server, boasts a plethora of RESTful endpoints that facilitate the efficient processing and management of metadata and information pertaining to specific NFTs through the utilization of the NFTGo API stored in an AWS DynamoDB table by [NFTir poller agent](https://github.com/NFTir/agent)
