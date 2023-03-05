@@ -24,7 +24,7 @@ import (
 var (
 	server		*gin.Engine
 	logglyClient	*loggly.ClientType
-	nr				*routers.NftRouter
+	nr		*routers.NftRouter
 )
 
 // @dev Runs before main() 
